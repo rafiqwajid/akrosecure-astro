@@ -39,7 +39,7 @@ const { Content } = await render(course);
                 <div>
                   <h2>Register interest in this course</h2>
                   <p class="intro">The course is in development and enrolment is not open. Registering interest puts you first in line for dates, format and pricing when they are confirmed — and helps shape the first run.</p>
-                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">The form prepares a message you copy and send to AkroSecure on LinkedIn. Nothing you type is stored or sent by this page, and registering interest is not enrolment — no payment, no account, no obligation.</p>
+                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">Fill in the form and your registration is emailed to AkroSecure. Nothing you type is stored on this page, and registering interest is not enrolment — no payment, no account, no obligation.</p>
                   <p class="intro" style="margin-top:14px;"><a href="/training/" style="font-weight:700;">← Back to the training catalogue</a></p>
                 </div>
                 <form class="inquiry" id="courseRegForm" data-course-title={course.data.title}>
@@ -55,16 +55,11 @@ const { Content } = await render(course);
                   <label>Anything we should know? (optional)
                     <textarea id="courseRegMsg" placeholder="Team size, timing, topics you want covered…"></textarea>
                   </label>
-                  <button class="btn" type="submit">Prepare my registration</button>
-                  <div class="inq-output" id="courseRegOutput">
-                    <label style="font-weight:600;font-size:15.5px;display:grid;gap:6px;">Your register-interest message — copy it and paste it into a LinkedIn message to AkroSecure:
-                      <textarea id="courseRegText" readonly></textarea>
-                    </label>
-                    <div class="row">
-                      <button type="button" class="link-btn" id="courseRegCopy">Copy message</button>
-                      <span class="copied" id="courseRegCopied" role="status"></span>
-                    </div>
-                  </div>
+                  <label class="hp" aria-hidden="true">Website
+                    <input type="text" id="courseRegWebsite" name="website" tabindex="-1" autocomplete="off" />
+                  </label>
+                  <button class="btn" type="submit">Register my interest</button>
+                  <div class="inq-status" id="courseRegStatus" role="status"></div>
                 </form>
               </div>
             </div>

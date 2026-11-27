@@ -67,7 +67,7 @@ const courses = await getCollection('courses');
             </div>
             <div class="resources" id="resourceGridTraining"></div>
             <div class="soon-grid">
-              <div class="soon-card"><h3>Technical articles</h3><p>Long-form engineering articles from the practice. The first pieces are being written — the three Insights briefings on the home page are the start of the series.</p><div class="tm">Coming soon</div></div>
+              <div class="soon-card"><h3>Technical articles</h3><p>Long-form engineering articles from the practice. The first pieces are being written — published briefings appear on the <a href="/insights/">Insights page</a>.</p><div class="tm">Coming soon</div></div>
               <div class="soon-card"><h3>PDF guides</h3><p>Collected, printable guides built from the checklists and course material. The four checklists above are available now as downloads; PDF editions follow.</p><div class="tm">Coming soon</div></div>
               <div class="soon-card"><h3>Hands-on labs</h3><p>Guided labs that accompany the courses, published alongside the courses they belong to. There is no public lab repository yet — links will appear here when one exists.</p><div class="tm">Coming soon</div></div>
             </div>
@@ -87,7 +87,7 @@ const courses = await getCollection('courses');
                 <div>
                   <h2>Register your interest</h2>
                   <p class="intro">Join the interest list for the first course. When dates, format and pricing are confirmed, the interest list hears first — before anything is announced publicly.</p>
-                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">How it works: the form prepares a message you copy and send to AkroSecure on LinkedIn — the same pattern as our consultation form. Nothing you type is stored or sent by this page. Registering interest is not enrolment: no payment, no account, no obligation.</p>
+                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">How it works: fill in the form and your registration is emailed to AkroSecure. Nothing you type is stored on this page. Registering interest is not enrolment: no payment, no account, no obligation.</p>
                 </div>
                 <form class="inquiry" id="regForm">
                   <label>Your name
@@ -105,16 +105,11 @@ const courses = await getCollection('courses');
                   <label>Anything we should know? (optional)
                     <textarea id="regMsg" placeholder="Team size, timing, topics you want covered…"></textarea>
                   </label>
-                  <button class="btn" type="submit">Prepare my registration</button>
-                  <div class="inq-output" id="regOutput">
-                    <label style="font-weight:600;font-size:15.5px;display:grid;gap:6px;">Your register-interest message — copy it and paste it into a LinkedIn message to AkroSecure:
-                      <textarea id="regText" readonly></textarea>
-                    </label>
-                    <div class="row">
-                      <button type="button" class="link-btn" id="regCopy">Copy message</button>
-                      <span class="copied" id="regCopied" role="status"></span>
-                    </div>
-                  </div>
+                  <label class="hp" aria-hidden="true">Website
+                    <input type="text" id="regWebsite" name="website" tabindex="-1" autocomplete="off" />
+                  </label>
+                  <button class="btn" type="submit">Register my interest</button>
+                  <div class="inq-status" id="regStatus" role="status"></div>
                 </form>
               </div>
             </div>
