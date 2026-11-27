@@ -13,9 +13,9 @@
 #      works as a fallback with no extra setup.
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/akrosecure-astro
+  repo: rafiqwajid/akrosecure-astro
   branch: main
-  base_url: https://akrosecure-decap-oauth.YOUR-WORKERS-SUBDOMAIN.workers.dev
+  base_url: https://akrosecure-decap-oauth.rafiqwajid.workers.dev
   auth_endpoint: auth
 
 # Uploaded images (e.g. a cover image for a post) are stored here.
