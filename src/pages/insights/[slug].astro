@@ -1,0 +1,33 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('insights');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout title={`${post.data.title} — AkroSecure Insights`} description={post.data.description}>
+  <main id="top">
+    <div class="page-head">
+      <div class="wrap">
+        <p class="crumb"><a href="/">Home</a> / <a href="/insights/">Insights</a></p>
+        <h1>{post.data.title}</h1>
+        <p class="lede">{post.data.description}</p>
+        <p style="margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:#7ad8cb;">{post.data.tag ? `${post.data.tag} · ` : ''}{date}</p>
+      </div>
+    </div>
+    <section class="block">
+      <div class="wrap narrow">
+        <div class="insight-body">
+          <Content />
+        </div>
+        <p style="margin-top:32px;"><a href="/insights/" style="font-weight:700;">← Back to all insights</a></p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

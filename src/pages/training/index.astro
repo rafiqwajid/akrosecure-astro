@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import { getCollection } from 'astro:content';
+
+const courses = await getCollection('courses');
+---
+<BaseLayout title="Training — AkroSecure">
+  <main id="top">
+
+        <div class="page-head">
+          <div class="wrap">
+            <p class="crumb"><a href="/">Home</a> / Training</p>
+            <h1>Cybersecurity training &amp; capability development</h1>
+            <p class="lede">Training is the fourth AkroSecure practice: practitioner-led courses in security architecture and engineering, built around hands-on labs and assessed work. This page is the honest preview — the catalogue, the roadmap, and the first course in full detail. No course is open for enrolment yet, and nothing here is for sale.</p>
+            <span class="badge dev">Courses in development — register interest open</span>
+          </div>
+        </div>
+
+        <section class="block" id="catalogue">
+          <div class="wrap">
+            <div class="sec-head">
+              <div class="kicker">Course catalogue</div>
+              <h2>The first course</h2>
+              <p>The catalogue starts with a single course, drawn from the work AkroSecure's product-security practice does every day. Further courses will be added to this page only when they can be described honestly — with a syllabus, prerequisites and an instructor — not as titles alone.</p>
+            </div>
+            {courses.map((course) => <CourseCard course={course} />)}
+          </div>
+        </section>
+
+        <section class="block" id="paths">
+          <div class="wrap">
+            <div class="sec-head">
+              <div class="kicker">Training roadmap</div>
+              <h2>Three learning paths, in development</h2>
+              <p>The catalogue will grow into three paths, from first principles to architecture leadership. The PKI course above is the first Practitioner-level course; the paths themselves are still being built, and no other courses are being promised yet.</p>
+            </div>
+            <div class="path-grid">
+              <div class="path-card"><h3>Foundation</h3><p>How systems fit together, where they break, and the vocabulary of architecture — trust boundaries, assets, controls. Ends with a first structured threat model.</p><div class="tm">In development</div></div>
+              <div class="path-card"><h3>Practitioner</h3><p>Threat modelling, design reviews, cloud and identity architecture for engineers and consultants whose judgement must hold up in the room. Practical PKI, Certificates &amp; TLS for Engineers is the first course on this path.</p><div class="tm">In development</div></div>
+              <div class="path-card"><h3>Advanced</h3><p>Architecture strategy, roadmaps and governance for senior architects and security leaders setting direction across teams and suppliers.</p><div class="tm">In development</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="training-video">
+          <div class="wrap">
+            <div class="sec-head">
+              <div class="kicker">Video</div>
+              <h2>Lessons and walkthroughs</h2>
+              <p>When course videos are published, they will be embedded here and on the course pages — short walkthroughs of the labs, design reviews and worked examples.</p>
+            </div>
+            <div class="video-ph" role="img" aria-label="Video placeholder: training videos are coming soon">
+              <span class="play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M6 4 L16 10 L6 16 Z" fill="currentColor"/></svg></span>
+              <strong>Training videos — coming soon</strong>
+              <p>No videos have been published yet. The first recordings will accompany the PKI course, and this space is where they will play.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="training-resources">
+          <div class="wrap">
+            <div class="sec-head">
+              <div class="kicker">Resources</div>
+              <h2>Free working tools, available now</h2>
+              <p>The same practical templates used in AkroSecure's advisory and engineering work — download them and use them in your next assessment or design review. Articles, collected PDF guides and hands-on labs are in preparation and marked as such.</p>
+            </div>
+            <div class="resources" id="resourceGridTraining"></div>
+            <div class="soon-grid">
+              <div class="soon-card"><h3>Technical articles</h3><p>Long-form engineering articles from the practice. The first pieces are being written — the three Insights briefings on the home page are the start of the series.</p><div class="tm">Coming soon</div></div>
+              <div class="soon-card"><h3>PDF guides</h3><p>Collected, printable guides built from the checklists and course material. The four checklists above are available now as downloads; PDF editions follow.</p><div class="tm">Coming soon</div></div>
+              <div class="soon-card"><h3>Hands-on labs</h3><p>Guided labs that accompany the courses, published alongside the courses they belong to. There is no public lab repository yet — links will appear here when one exists.</p><div class="tm">Coming soon</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="block" id="delivery">
+          <div class="wrap">
+            <div class="note-box"><strong>How enrolment will work when courses launch:</strong> this website is a static site, and it stays the public catalogue — course pages, resources and register-interest. When paid courses open, enrolment, payment, student accounts and progress tracking will run on a reputable hosted course platform, linked from these pages, rather than a payment or login system built from scratch. No accounts exist yet, and no payment is taken anywhere on this site.</div>
+          </div>
+        </section>
+
+        <section class="block" id="register-interest">
+          <div class="wrap">
+            <div class="contact-band">
+              <div class="contact-grid">
+                <div>
+                  <h2>Register your interest</h2>
+                  <p class="intro">Join the interest list for the first course. When dates, format and pricing are confirmed, the interest list hears first — before anything is announced publicly.</p>
+                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">How it works: the form prepares a message you copy and send to AkroSecure on LinkedIn — the same pattern as our consultation form. Nothing you type is stored or sent by this page. Registering interest is not enrolment: no payment, no account, no obligation.</p>
+                </div>
+                <form class="inquiry" id="regForm">
+                  <label>Your name
+                    <input type="text" id="regName" required placeholder="e.g. Alex Morgan" />
+                  </label>
+                  <label>Work email
+                    <input type="email" id="regEmail" required placeholder="you@example.com" />
+                  </label>
+                  <label>I'm interested in
+                    <select id="regCourse">
+                      {courses.map((course) => <option>{course.data.title}</option>)}
+                      <option>Future AkroSecure courses — keep me posted</option>
+                    </select>
+                  </label>
+                  <label>Anything we should know? (optional)
+                    <textarea id="regMsg" placeholder="Team size, timing, topics you want covered…"></textarea>
+                  </label>
+                  <button class="btn" type="submit">Prepare my registration</button>
+                  <div class="inq-output" id="regOutput">
+                    <label style="font-weight:600;font-size:15.5px;display:grid;gap:6px;">Your register-interest message — copy it and paste it into a LinkedIn message to AkroSecure:
+                      <textarea id="regText" readonly></textarea>
+                    </label>
+                    <div class="row">
+                      <button type="button" class="link-btn" id="regCopy">Copy message</button>
+                      <span class="copied" id="regCopied" role="status"></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+            </main>
+  <script>
+    import { renderTrainingResources } from '../../scripts/resources.js';
+    import '../../scripts/register.js';
+    renderTrainingResources();
+  </script>
+</BaseLayout>

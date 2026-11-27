@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const courses = await getCollection('courses');
+  return courses.map((course) => ({ params: { slug: course.id }, props: { course } }));
+}
+
+const { course } = Astro.props;
+const { Content } = await render(course);
+---
+<BaseLayout title={`${course.data.title} — AkroSecure Training`}>
+  <main id="top">
+    <div class="page-head">
+      <div class="wrap">
+        <p class="crumb"><a href="/">Home</a> / <a href="/training/">Training</a> / {course.data.shortTitle}</p>
+        <h1>{course.data.title}</h1>
+        <p class="lede">{course.data.lede}</p>
+        <span class="badge dev">{course.data.statusBadge}</span>
+      </div>
+    </div>
+    <section class="block">
+      <div class="wrap narrow">
+        <div class="meta-grid" style="margin-top:0;">
+          {course.data.pageMeta.map((m) => (
+            <div class="meta-cell"><div class="k">{m.label}</div><div class="v">{m.value}<span>{m.detail}</span></div></div>
+          ))}
+        </div>
+        <div class="course-body">
+          <Content />
+        </div>
+      </div>
+    </section>
+        <section class="block" id="course-register" style="padding-top:26px;">
+          <div class="wrap">
+            <div class="contact-band">
+              <div class="contact-grid">
+                <div>
+                  <h2>Register interest in this course</h2>
+                  <p class="intro">The course is in development and enrolment is not open. Registering interest puts you first in line for dates, format and pricing when they are confirmed — and helps shape the first run.</p>
+                  <p class="intro" style="margin-top:14px;font-size:14.5px;color:var(--muted);">The form prepares a message you copy and send to AkroSecure on LinkedIn. Nothing you type is stored or sent by this page, and registering interest is not enrolment — no payment, no account, no obligation.</p>
+                  <p class="intro" style="margin-top:14px;"><a href="/training/" style="font-weight:700;">← Back to the training catalogue</a></p>
+                </div>
+                <form class="inquiry" id="courseRegForm" data-course-title={course.data.title}>
+                  <label>Your name
+                    <input type="text" id="courseRegName" required placeholder="e.g. Alex Morgan" />
+                  </label>
+                  <label>Work email
+                    <input type="email" id="courseRegEmail" required placeholder="you@example.com" />
+                  </label>
+                  <label>Course
+                    <input type="text" value={course.data.title} readonly />
+                  </label>
+                  <label>Anything we should know? (optional)
+                    <textarea id="courseRegMsg" placeholder="Team size, timing, topics you want covered…"></textarea>
+                  </label>
+                  <button class="btn" type="submit">Prepare my registration</button>
+                  <div class="inq-output" id="courseRegOutput">
+                    <label style="font-weight:600;font-size:15.5px;display:grid;gap:6px;">Your register-interest message — copy it and paste it into a LinkedIn message to AkroSecure:
+                      <textarea id="courseRegText" readonly></textarea>
+                    </label>
+                    <div class="row">
+                      <button type="button" class="link-btn" id="courseRegCopy">Copy message</button>
+                      <span class="copied" id="courseRegCopied" role="status"></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>  </main>
+  <script>
+    import '../../scripts/register.js';
+  </script>
+</BaseLayout>

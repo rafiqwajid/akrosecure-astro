@@ -1,0 +1,26 @@
+---
+import { type CollectionEntry } from 'astro:content';
+
+interface Props {
+  course: CollectionEntry<'courses'>;
+}
+
+const { course } = Astro.props;
+// Teal "now" badge only for courses open for enrolment; everything else
+// (Coming soon, In development) keeps the amber "dev" badge from the live site.
+const badgeClass = course.data.status === 'Open for enrolment' ? 'badge now' : 'badge dev';
+---
+            <article class="course-card">
+              <div class="top"><span class={badgeClass}>{course.data.status}</span><span class="mono" style="font-size:13px;letter-spacing:1px;color:var(--muted);">{course.data.tag}</span></div>
+              <h3>{course.data.title}</h3>
+              <p>{course.data.description}</p>
+              <div class="meta-grid">
+                {course.data.cardMeta.map((m) => (
+                  <div class="meta-cell"><div class="k">{m.label}</div><div class="v">{m.value}<span>{m.detail}</span></div></div>
+                ))}
+              </div>
+              <div class="row">
+                <a class="btn small" href={`/training/${course.id}/`}>View the full course page</a>
+                <a class="btn small ghost" href="#register-interest">Register interest</a>
+              </div>
+            </article>

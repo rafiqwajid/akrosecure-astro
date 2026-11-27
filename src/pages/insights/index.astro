@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('insights')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+<BaseLayout title="Insights — AkroSecure">
+  <main id="top">
+    <div class="page-head">
+      <div class="wrap">
+        <p class="crumb"><a href="/">Home</a> / Insights</p>
+        <h1>Insights</h1>
+        <p class="lede">Thinking we publish, not just sell. An emerging practice earns trust by showing its reasoning.</p>
+      </div>
+    </div>
+    <section class="block">
+      <div class="wrap">
+        {posts.length === 0 ? (
+          <div class="note-box"><strong>No insights published yet.</strong> The first briefing will appear here when it is published.</div>
+        ) : (
+          <div class="insights">
+            {posts.map((post) => (
+              <article class="insight">
+                {post.data.tag && <div class="tagline2">{post.data.tag}</div>}
+                <h3><a href={`/insights/${post.id}/`}>{post.data.title}</a></h3>
+                <p>{post.data.description}</p>
+                <div class="foot">
+                  {post.data.date.toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

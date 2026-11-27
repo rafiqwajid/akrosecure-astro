@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'AkroSecure — Cybersecurity Advisory, Engineering & Assurance. Engineering Security. Building Trust. Understand your risks. Strengthen your defenses. Build with confidence.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="data:," />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+
+      <div class="wrap nav">
+        <a class="brand" href="/" aria-label="AkroSecure home">
+          <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40 L24 8 L42 40 Z" fill="none" stroke="#0d7a6f" stroke-width="3.4" stroke-linejoin="round"/><path d="M16.5 40 L24 26 L31.5 40" fill="none" stroke="#0c2a44" stroke-width="3" stroke-linejoin="round" opacity="0.55"/><circle cx="24" cy="19" r="2.6" fill="#b7791f"/></svg>
+          <span class="name">Akro<em>Secure</em></span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
+        <nav class="links" id="mainNav" aria-label="Main">
+          <a href="/">Home</a>
+          <a href="/#services">Services</a>
+          <a href="/#insights">Insights</a>
+          <a href="/training/">Training</a>
+          <a href="/#about">About</a>
+          <a class="btn small" href="/#contact">Contact</a>
+        </nav>
+      </div>
+    
+    <slot />
+
+      <div class="wrap">
+        <div class="foot-grid">
+          <div class="col">
+            <div style="display:flex;align-items:center;gap:9px;font-family:'Archivo',sans-serif;font-weight:800;font-size:19px;">
+              <svg width="26" height="26" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 40 L24 8 L42 40 Z" fill="none" stroke="#0d7a6f" stroke-width="3.4" stroke-linejoin="round"/><circle cx="24" cy="19" r="2.6" fill="#b7791f"/></svg>
+              AkroSecure
+            </div>
+            <p style="margin-top:10px;color:var(--ink-2);max-width:26em;">Engineering Security. Building Trust.<br />Cybersecurity Advisory, Engineering &amp; Assurance.</p>
+          </div>
+          <div class="col">
+            <h3>Services</h3>
+            <a href="/#services">Strategy &amp; Advisory</a>
+            <a href="/#services">Governance, Risk &amp; Compliance</a>
+            <a href="/#services">Product Security &amp; Engineering</a>
+            <a href="/training/">Training &amp; Capability</a>
+          </div>
+          <div class="col">
+            <h3>Explore</h3>
+            <a href="/#approach">Our approach</a>
+            <a href="/#insights">Insights</a>
+            <a href="/#about">About</a>
+          </div>
+          <div class="col">
+            <h3>Connect</h3>
+            <a href="https://www.linkedin.com/company/secstone" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="/#contact">Request a consultation</a>
+            <a href="/#faq">FAQ</a>
+          </div>
+        </div>
+        <p class="disclaimer">AkroSecure provides cybersecurity advisory, readiness and assurance support. ISO 27001 certification is issued only by accredited certification bodies and SOC 2 reports only by licensed CPA firms; AkroSecure does not issue either and does not guarantee audit or certification outcomes. Service availability is labelled on each offering; training is currently in development.</p>
+        <div class="base">
+          <span>© 2026 AkroSecure</span>
+          <span>Understand your risks. Strengthen your defenses. Build with confidence.</span>
+        </div>
+      </div>
+    
+    <script>
+      import '../scripts/nav.js';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+# Decap CMS configuration for AkroSecure.
+#
+# BEFORE THIS WORKS, the owner must fill in the two placeholders below:
+#   1. `repo:` — your GitHub username and the repository name, e.g.
+#      repo: rafiqwajid/akrosecure-astro
+#   2. `base_url:` — the URL of the OAuth proxy Worker (see oauth-proxy/),
+#      e.g. base_url: https://akrosecure-decap-oauth.rafiqwajid.workers.dev
+#      (the Worker subdomain is your own; use the real one from the dashboard)
+#   3. Register a GitHub OAuth App whose "Authorization callback URL" is
+#      <base_url>/callback, and store its client ID + secret in the Worker.
+#      See OWNER_CHECKLIST.md, steps 2–4. Until then, the admin login cannot
+#      be tested — and the GitHub web editor (edit the .md files directly)
+#      works as a fallback with no extra setup.
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/akrosecure-astro
+  branch: main
+  base_url: https://akrosecure-decap-oauth.YOUR-WORKERS-SUBDOMAIN.workers.dev
+  auth_endpoint: auth
+
+# Uploaded images (e.g. a cover image for a post) are stored here.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Where the site is published — used for preview links in the admin.
+site_url: https://akrosecure.com
+display_url: https://akrosecure.com
+
+collections:
+  - name: "insights"
+    label: "Insights (blog posts)"
+    folder: "src/content/insights"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "insights/{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish date", name: "date", widget: "datetime" }
+      - { label: "Short description", name: "description", widget: "text", hint: "One or two sentences. Shown on the Insights list and at the top of the post." }
+      - { label: "Tag", name: "tag", widget: "string", required: false, hint: "Short label above the title, e.g. Regulation · EU CRA. Leave empty for none." }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "courses"
+    label: "Courses"
+    folder: "src/content/courses"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "training/{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Short description", name: "description", widget: "text", hint: "One paragraph. Shown on the catalogue card." }
+      - { label: "Tag", name: "tag", widget: "string", hint: "Short label on the card, e.g. PKI · CERTIFICATES · TLS / MTLS." }
+      - { label: "Status", name: "status", widget: "select", options: ["Coming soon", "In development", "Open for enrolment"], default: "Coming soon" }
+      - { label: "Status badge", name: "statusBadge", widget: "string", hint: "Pill under the course-page title, e.g. Coming soon — in development." }
+      - { label: "Short title", name: "shortTitle", widget: "string", hint: "Short name used in the breadcrumb, e.g. Practical PKI, Certificates & TLS." }
+      - { label: "Intro (lede)", name: "lede", widget: "text", hint: "One or two sentences under the course-page title." }
+      - { label: "Catalogue card boxes", name: "cardMeta", widget: "list", min: 1, max: 3, summary: "{{fields.label}}: {{fields.value}}", fields: [
+          { label: "Label", name: "label", widget: "string" },
+          { label: "Value", name: "value", widget: "string" },
+          { label: "Detail", name: "detail", widget: "text" },
+        ] }
+      - { label: "Course page boxes", name: "pageMeta", widget: "list", min: 1, max: 3, summary: "{{fields.label}}: {{fields.value}}", fields: [
+          { label: "Label", name: "label", widget: "string" },
+          { label: "Value", name: "value", widget: "string" },
+          { label: "Detail", name: "detail", widget: "text" },
+        ] }
+      - { label: "Body", name: "body", widget: "markdown", hint: "About, what you will learn, prerequisites, syllabus, instructor, video. The syllabus list is raw HTML in the existing course — edit it in the raw editor if you change it." }
