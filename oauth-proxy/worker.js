@@ -8,9 +8,15 @@
  * with a code, this Worker swaps the code for a token and hands it to the
  * admin page. No data is stored; the token goes only to the owner's browser.
  *
- * STATUS: UNTESTED. It cannot be tested until the owner has a GitHub account,
- * a repository, and a registered GitHub OAuth App (see OWNER_CHECKLIST.md
- * steps 2–4). The code follows the standard Decap GitHub OAuth pattern.
+ * STATUS: LIVE — /auth and the token exchange were verified live on
+ * 2026-11-26 (GitHub sign-in succeeds). The callback hand-off was FIXED
+ * 2026-11-27: the first version posted the token once and closed, but
+ * Decap 3 expects a two-way handshake (see Step 3) — without it Decap
+ * ignored the token, the popup closed, and the admin stayed logged out.
+ * The fix below is NOT yet deployed to the Worker; deploy it from the
+ * Cloudflare dashboard (Workers & Pages > akrosecure-decap-oauth >
+ * Edit code > paste this file > Save and Deploy), then test the login
+ * once at akrosecure.com/admin.
  *
  * SETUP (after the GitHub OAuth App exists):
  *   1. Deploy: `npx wrangler deploy` from this folder (or paste this file
@@ -63,10 +69,29 @@ export default {
       }
 
       // Step 3: hand the token to the Decap admin window and close this tab.
+      //
+      // Decap 3 expects a two-way handshake, not a single postMessage: the
+      // popup first announces itself with "authorizing:github", the admin
+      // page replies with the same string, and only then does the popup
+      // send the token — back to the reply's origin. The first version of
+      // this Worker posted the token immediately and closed, which is why
+      // GitHub sign-in succeeded on 2026-11-26 but the popup closed and
+      // the admin stayed on the login screen: Decap ignored the token
+      // because the handshake never happened. Fixed 2026-11-27; see
+      // https://ailurotech.com/blog/github-oauth-with-decap and the Decap
+      // docs' Cloudflare Worker template (sterlingwes/decap-proxy).
       const payload = JSON.stringify({ token: data.access_token, provider: 'github' });
       const html = `<!doctype html><html><body><script>
-        window.opener.postMessage('authorization:github:success:${payload}', '*');
-        window.close();
+        (function () {
+          function receiveMessage(e) {
+            if (e.data === 'authorizing:github') {
+              window.opener.postMessage('authorization:github:success:${payload}', e.origin);
+              window.close();
+            }
+          }
+          window.addEventListener('message', receiveMessage, false);
+          window.opener.postMessage('authorizing:github', '*');
+        })();
       </script><p>Signed in — you can close this window.</p></body></html>`;
       return new Response(html, { headers: { 'Content-Type': 'text/html' } });
     }
